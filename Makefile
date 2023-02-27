@@ -1,7 +1,3 @@
-include .env
-
-export
-
 .PHONY: up
 up: .env
 	docker-compose up --build -d
