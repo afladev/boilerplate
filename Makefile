@@ -25,6 +25,7 @@ migrate: vendor
 
 .PHONY: install
 install: vendor run-prod migrate
+	docker-compose exec app php artisan key:generate
 
 .PHONY: test
 test: vendor
