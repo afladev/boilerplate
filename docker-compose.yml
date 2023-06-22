@@ -6,28 +6,27 @@ networks:
 
 services:
   app:
-    build:
-      context: ./docker/app
-      args:
-        WWW_USER: '${WWW_USER}'
-        WWW_GROUP: '${WWW_GROUP}'
-    networks:
-      - app
+    image: webdevops/php-nginx:8.2
+    environment:
+        - WEB_DOCUMENT_ROOT=/app/public
+    working_dir: '/app'
     volumes:
-      - '.:/var/www'
-    ports:
-      - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
-    user: "${WWW_USER}"
-
-  nginx:
-    build:
-      context: ./docker/nginx
+      - '.:/app'
+    networks:
+        - app
     ports:
       - ${APP_PORT:-80}:80
+
+  node:
+    image: node:18
+    working_dir: '/app'
+    volumes:
+      - '.:/app'
     networks:
       - app
-    volumes:
-      - './public:/var/www/public'
+    ports:
+      - ${VITE_PORT:-5173}:${VITE_PORT:-5173}
+    command: ["/bin/bash", "-c", "tail -f /dev/null"]
 
   mysql:
     image: 'mysql:8.0'
