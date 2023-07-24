@@ -42,4 +42,8 @@ test: vendor
 
 .PHONY: db
 db: vendor
-	docker compose exec mysql mysql --host=${DB_HOST} --port=${DB_PORT} --user=${DB_USERNAME} --password=${DB_PASSWORD} ${DB_DATABASE}
+	docker compose exec --user ${WWW_USER} app php artisan db
+
+.PHONY: cli
+cli: vendor
+	docker compose exec --user ${WWW_USER} app bash
