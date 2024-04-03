@@ -18,15 +18,15 @@ vendor: composer.lock composer.json
 	docker compose exec --user ${WWW_USER} app composer install
 
 node_modules: package.json package-lock.json
-	docker compose exec --user ${WWW_USER} node npm ci
+	docker compose exec --user ${WWW_USER} app npm ci
 
 .PHONY: run-prod
 run-prod: node_modules
-	docker compose exec --user ${WWW_USER} node npm run build
+	docker compose exec --user ${WWW_USER} app npm run build
 
 .PHONY: run-dev
 run-dev: node_modules
-	docker compose exec --user ${WWW_USER} node npm run dev
+	docker compose exec --user ${WWW_USER} app npm run dev
 
 .PHONY: migrate
 migrate: vendor
@@ -45,5 +45,5 @@ db: vendor
 	docker compose exec --user ${WWW_USER} app php artisan db
 
 .PHONY: cli
-cli: vendor
+cli:
 	docker compose exec --user ${WWW_USER} app bash
