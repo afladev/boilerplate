@@ -11,8 +11,8 @@ services:
     volumes:
       - '.:/app'
     networks:
-        - app
-#        - web
+      - app
+#      - web
     ports:
       - ${APP_PORT:-80}:80
       - ${VITE_PORT:-5173}:${VITE_PORT:-5173}
